@@ -19,7 +19,7 @@ void getInput(char* input,CharStringLink& words) {
 		CharString cs(word);
 		words.add(cs);
 	}
-}
+}	
 
 //TODO：输出多行查询
 //将单次查询的结果保存在result1.txt

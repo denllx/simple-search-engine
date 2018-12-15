@@ -1,13 +1,17 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "ui_news_system_ui.h"
+//#include "ui_news_system_ui.h"
+#include "ui_DialogButtonRight.h"
 #include "BalanceBinaryTree.h"
 #include "CharStringLink.h"
+#include <QDialog>
+#include "scene.h"
 
 class Extractor;//进行网页解析的线程
 
-class Screen :public QMainWindow {
+
+class Screen :public QDialog {
 	Q_OBJECT 
 
 public:
@@ -17,16 +21,17 @@ public:
 	map<CharString, int> title2ID;//从新闻标题到ID的映射
 	map<int, CharString> ID2title;//从ID到标题的映射
 
-	Screen(QWidget* parent = 0);
+	explicit Screen(QWidget* parent = 0);
 	~Screen();
 
 private:
-	Ui::news_system_uiClass ui;
+	Scene* scene;//场景类
+	Ui::Dialog* ui;//指向ui的指针
 
 public slots:
-	//void changeText();
 	void handleProcessed(int value);//解析文件进度
 	void startExtract();//开始解析文件
+	void splitWords(char* sent);//将句子分割为单词
 };
 
 #endif 

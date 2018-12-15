@@ -110,7 +110,7 @@ public:
 				}
 			}
 		}
-
+		emit extracted(-1);//解析完毕
 		cout << "词汇输出完毕！" << endl;
 	}
 

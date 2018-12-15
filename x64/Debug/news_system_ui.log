@@ -1,9 +1,11 @@
-﻿  Moc'ing extractor.h...
+﻿  Uic'ing DialogButtonRight.ui...
 C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(944,5): warning MSB8027: 名为 qrc_news_system_ui.cpp 的两个或更多文件将生成到同一位置的输出。这会导致错误的生成结果。   调用的文件是 GeneratedFiles\qrc_news_system_ui.cpp, .\GeneratedFiles\qrc_news_system_ui.cpp。
   moc_extractor.cpp
+  moc_screen.cpp
   extractor.cpp
+  main.cpp
   screen.cpp
-d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(39): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 screen.cpp)
 d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(39): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 .\GeneratedFiles\Debug\moc_extractor.cpp)
 d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(39): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(39): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 screen.cpp)
   news_system_ui.vcxproj -> D:\courses\data_structure\homework2\news_system_ui\x64\Debug\news_system_ui.exe

@@ -87,6 +87,9 @@
     <ClCompile Include="extractor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="news_system_ui.h">
@@ -98,12 +101,21 @@
     <QtMoc Include="extractor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="inputs.h">
+    <QtMoc Include="scene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="news_system_ui.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="DialogButtonRight.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="input.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -159,6 +171,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_news_system_ui.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_DialogButtonRight.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_input.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
