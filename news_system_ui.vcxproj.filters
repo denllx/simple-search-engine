@@ -78,9 +78,27 @@
     <ClCompile Include="regularization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_news_system_ui.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="extractor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="news_system_ui.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="screen.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="extractor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="inputs.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -139,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="Stack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_news_system_ui.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

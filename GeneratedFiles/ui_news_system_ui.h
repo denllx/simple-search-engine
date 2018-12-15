@@ -14,9 +14,10 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -27,7 +28,8 @@ class Ui_news_system_uiClass
 {
 public:
     QWidget *centralWidget;
-    QPushButton *pushButton;
+    QLabel *label;
+    QProgressBar *progressBar;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -37,11 +39,28 @@ public:
         if (news_system_uiClass->objectName().isEmpty())
             news_system_uiClass->setObjectName(QStringLiteral("news_system_uiClass"));
         news_system_uiClass->resize(600, 400);
+        news_system_uiClass->setStyleSheet(QStringLiteral("background-color:rgb(200,128,43)"));
         centralWidget = new QWidget(news_system_uiClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(260, 100, 93, 28));
+        centralWidget->setStyleSheet(QStringLiteral("background-color:rgb(200, 128, 43)"));
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(200, 90, 181, 51));
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(label->sizePolicy().hasHeightForWidth());
+        label->setSizePolicy(sizePolicy);
+        label->setTextFormat(Qt::AutoText);
+        progressBar = new QProgressBar(centralWidget);
+        progressBar->setObjectName(QStringLiteral("progressBar"));
+        progressBar->setGeometry(QRect(120, 160, 341, 23));
+        progressBar->setStyleSheet(QLatin1String("QProgressBar{\n"
+"     background:transparent}\n"
+"QProgressBar::chunk {\n"
+"     background-color: rgb(239, 217, 193)}\n"
+""));
+        progressBar->setValue(0);
         news_system_uiClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(news_system_uiClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -62,7 +81,7 @@ public:
     void retranslateUi(QMainWindow *news_system_uiClass)
     {
         news_system_uiClass->setWindowTitle(QApplication::translate("news_system_uiClass", "news_system_ui", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("news_system_uiClass", "\347\231\276\345\272\246\346\220\234\347\264\242", Q_NULLPTR));
+        label->setText(QApplication::translate("news_system_uiClass", "<html><head/><body><p><span style=\" font-size:14pt; font-weight:600; color:#ffffff;\">loading...</span></p></body></html>", Q_NULLPTR));
     } // retranslateUi
 
 };

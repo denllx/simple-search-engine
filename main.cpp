@@ -16,6 +16,7 @@
 #include <time.h>
 #include <vector>
 #include <map>
+#include "screen.h"
 
 
 using namespace std;
@@ -129,7 +130,7 @@ void testmalloc() {
 	hello(a);
 }
 int main(int argc, char *argv[]) {
-	BalanceBinaryTree* tree = new BalanceBinaryTree;
+	/*BalanceBinaryTree* tree = new BalanceBinaryTree;
 
 	int* id2wordnum = NULL;//每个ID的文章中包含的总词数
 	int totalArticles = 0, totalWords = 0;//文章总数，词语总数
@@ -149,9 +150,9 @@ int main(int argc, char *argv[]) {
 	}//shape=(总词数，总文章数) 
 
 	scoreMatrix(tree, totalArticles, score, id2wordnum);//通过倒排索引构建文章-单词评分表
-	runRecommand(score, totalArticles, totalWords, title2ID, ID2title);//根据评分表计算文章相似度，输出推荐列表
+	runRecommand(score, totalArticles, totalWords, title2ID, ID2title);//根据评分表计算文章相似度，输出推荐列表*/
 	QApplication a(argc, argv);
-	news_system_ui w;
+	Screen w;
 	w.show();
 	return a.exec();
 }
