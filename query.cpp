@@ -38,7 +38,10 @@ void outputQueryResult(vector<vector<pair<int, int>>>& rets) {
 	fout.close();
 }
 
-//一般numarticles=780
+//tree:倒排索引
+//words:待查询的所有关键词
+//返回：每个元素是一个(articleid,times)的pair，表示这些关键词一共在该文章中出现多少次
+//按照times从大到小排序
 vector<pair<int, int>> query(BalanceBinaryTree* tree,CharStringLink& words) {
 	map<int, int> id2times;//key为网页的ID，value为所有关键字出现的总次数
 	StringNode* p = words.head;
@@ -83,10 +86,6 @@ void runQuery(BalanceBinaryTree* tree) {
 		CharStringLink words;
 		getInput(s, words);//将s按照空格分开，返回字符串链表
 		StringNode* node = words.head;
-		while (node) {
-			cout << node->str << endl;
-			node = node->next;
-		}
 		vector<pair<int, int>> ret = query(tree, words);//计算一次查询的结果
 		rets.push_back(ret);
 	}

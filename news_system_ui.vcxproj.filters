@@ -90,6 +90,12 @@
     <ClCompile Include="scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="inputscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="listscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="news_system_ui.h">
@@ -104,6 +110,12 @@
     <QtMoc Include="scene.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="listscene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="inputscene.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="news_system_ui.ui">
@@ -116,6 +128,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="input.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="list.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -177,6 +192,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_input.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_list.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

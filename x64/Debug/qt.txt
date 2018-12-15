@@ -1,1 +1,0 @@
-Uic'ing DialogButtonRight.ui...;D:\Qt5.9.2\5.9.2\msvc2017_64\bin\uic.exe;"D:\courses\data_structure\homework2\news_system_ui\news_system_ui\DialogButtonRight.ui" -o ".\GeneratedFiles\ui_DialogButtonRight.h"

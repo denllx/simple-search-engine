@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Screen_t {
     QByteArrayData data[8];
-    char stringdata0[65];
+    char stringdata0[67];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,13 +36,13 @@ QT_MOC_LITERAL(1, 7, 15), // "handleProcessed"
 QT_MOC_LITERAL(2, 23, 0), // ""
 QT_MOC_LITERAL(3, 24, 5), // "value"
 QT_MOC_LITERAL(4, 30, 12), // "startExtract"
-QT_MOC_LITERAL(5, 43, 10), // "splitWords"
-QT_MOC_LITERAL(6, 54, 5), // "char*"
-QT_MOC_LITERAL(7, 60, 4) // "sent"
+QT_MOC_LITERAL(5, 43, 12), // "getArticleID"
+QT_MOC_LITERAL(6, 56, 5), // "char*"
+QT_MOC_LITERAL(7, 62, 4) // "sent"
 
     },
     "Screen\0handleProcessed\0\0value\0"
-    "startExtract\0splitWords\0char*\0sent"
+    "startExtract\0getArticleID\0char*\0sent"
 };
 #undef QT_MOC_LITERAL
 
@@ -80,7 +80,7 @@ void Screen::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: _t->handleProcessed((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->startExtract(); break;
-        case 2: _t->splitWords((*reinterpret_cast< char*(*)>(_a[1]))); break;
+        case 2: _t->getArticleID((*reinterpret_cast< char*(*)>(_a[1]))); break;
         default: ;
         }
     }
