@@ -18,8 +18,6 @@ Screen::Screen(QWidget* parent):
 	ui(new Ui::Dialog)
 	{
 	ui->setupUi(this);
-	//ui.pushButton->setText("hello world!");
-	//connect(ui.pushButton, SIGNAL(clicked()), this, SLOT(changeText()));
 	QTimer::singleShot(10, this, SLOT(startExtract()));
 }
 
@@ -28,12 +26,6 @@ void Screen::handleProcessed(int value) {
 	if (value == -1) {//解析完成
 		//确定总词数
 		totalWords = tree->size();
-		//打印id2title
-		/*
-		for (int i = 0; i < ID2title.size(); i++) {
-			QString str=QString::fromLocal8Bit(ID2title[i].c_str());
-			qDebug() <<"qdebug:"<<str << "\n";
-		}*/
 		//显示输入场景
 		scene = new InputScene(this);
 		//用户点击确认后，接收来自场景的字符串并分词
@@ -56,6 +48,7 @@ void Screen::getArticleID(char* sent) {
 //切换到跳转界面
 void Screen::jumpToPage(QString str) {
 	currentPage = str;//xxx\\input\\0.html
+	qDebug() << "currentpage=" << currentPage;
 	//TODO 获从文件名获取文件的ID
 	int end = str.lastIndexOf(".html");
 	int start = str.lastIndexOf("\\");
@@ -72,8 +65,12 @@ void Screen::jumpToPage(QString str) {
 
 void Screen::jumpToAnotherPage(QString str) {
 	qDebug() << "jump to another page:" << str << "\n";
+	qDebug() << "currentid=" << currentID << "\n";
+	scene->deleteLater();
+	currentPage = str;
+	scene = new PageScene(this);
+	connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToAnotherPage(QString)));
 }
-
 
 void Screen::startExtract()//开始解析文件的进程
 {

@@ -18,6 +18,8 @@
 #include <time.h>
 #include <vector>
 #include <map>
+#include <QMovie>
+#include <QLabel>
 #include "screen.h"
 
 
@@ -161,6 +163,14 @@ int main(int argc, char *argv[]) {
 	//view->show();
 	Screen w;
 	w.show();
+	/*QMovie* movie = new QMovie(":/news_system_ui/images/loading.gif");
+	QLabel* label = new QLabel();
+	label->setText("hello");
+	label->setFixedHeight(100);
+	label->setFixedWidth(100);
+	label->setMovie(movie);
+	movie->start();
+	label->show();*/
 	return a.exec();
 }
 

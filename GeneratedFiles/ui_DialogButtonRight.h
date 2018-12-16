@@ -30,14 +30,14 @@ public:
     {
         if (Dialog->objectName().isEmpty())
             Dialog->setObjectName(QStringLiteral("Dialog"));
-        Dialog->resize(800, 600);
+        Dialog->resize(1100, 800);
         Dialog->setStyleSheet(QStringLiteral("background-color:rgb(200,128,43)"));
         label = new QLabel(Dialog);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(310, 240, 171, 61));
+        label->setGeometry(QRect(450, 240, 171, 61));
         progressBar = new QProgressBar(Dialog);
         progressBar->setObjectName(QStringLiteral("progressBar"));
-        progressBar->setGeometry(QRect(150, 320, 511, 23));
+        progressBar->setGeometry(QRect(280, 340, 511, 23));
         progressBar->setStyleSheet(QLatin1String("QProgressBar::chunk{\n"
 "	background-color:rgb(239,217,193)\n"
 "}"));

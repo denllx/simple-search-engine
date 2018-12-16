@@ -26,7 +26,7 @@ public:
     {
         if (List->objectName().isEmpty())
             List->setObjectName(QStringLiteral("List"));
-        List->resize(800, 600);
+        List->resize(1100, 800);
         List->setStyleSheet(QStringLiteral("background-color:rgb(255,255,255)"));
 
         retranslateUi(List);

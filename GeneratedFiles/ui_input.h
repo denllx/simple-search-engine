@@ -32,17 +32,17 @@ public:
     {
         if (Input->objectName().isEmpty())
             Input->setObjectName(QStringLiteral("Input"));
-        Input->resize(800, 600);
+        Input->resize(1100, 800);
         Input->setStyleSheet(QStringLiteral("background-color:rgb(255,255,255)"));
         lineEdit = new QLineEdit(Input);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
-        lineEdit->setGeometry(QRect(160, 280, 451, 51));
+        lineEdit->setGeometry(QRect(300, 410, 451, 51));
         label = new QLabel(Input);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(250, 220, 251, 41));
+        label->setGeometry(QRect(430, 330, 251, 41));
         pushButton = new QPushButton(Input);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(610, 280, 93, 51));
+        pushButton->setGeometry(QRect(750, 410, 93, 51));
         pushButton->setStyleSheet(QStringLiteral("background-color:rgb(0,0,255)"));
 
         retranslateUi(Input);

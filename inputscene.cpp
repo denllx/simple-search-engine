@@ -24,5 +24,5 @@ void InputScene::changeWords(const QString& text) {//用户输入发生变化
 }
 
 InputScene::~InputScene() {
-
+	delete ui;
 }

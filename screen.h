@@ -23,7 +23,7 @@ public:
 	vector<pair<int, int>> ret;//通过关键词查询文件，返回<id,times>的pair
 	QString currentPage;//当前即将跳转的文件的名称
 	int currentID;//当前即将跳转的文件的ID
-	double** score;
+	double** score;//打分矩阵
 	explicit Screen(QWidget* parent = 0);
 	~Screen();
 

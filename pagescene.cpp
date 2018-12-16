@@ -1,4 +1,5 @@
 #include <QTextCodec>
+#include <QDebug>
 #include "screen.h"
 #include "pagescene.h"
 #include "getfile.h"
@@ -10,39 +11,38 @@ PageScene::PageScene(QWidget* parent) :
 	ui->setupUi(this);
 	filepath = father->currentPage;
 	ID = father->currentID;
-	//qDebug() << "filepath:" << filepath << "\n";
 	qDebug() << "id of displayed file is" << ID << "\n";
-	//QByteArray ba = filepath.toLocal8Bit();
-	//char* cfilename = ba.data();
-	//qDebug() << "selected filename(without file:///):"<<QString(cfilename) << "\n";
-	//ID = father->title2ID[cfilename];//被选中的文章的ID
-	//qDebug() << "selected file ID=" << ID << "\n";
-	//TODO 通过father获取recommandList
-	//recommandID = vector<int>{ 1,2,3 };
 	recommandID = _recommand(ID, father->score, father->totalArticles, father->totalWords);
 	qDebug() << "recommand id and filename:\n";
 	QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));
-	/*for (int i = 0, len = recommandID.size(); i < len; i++) {
-		qDebug() << recommandID[i] << " " << QString::fromLocal8Bit(father->ID2title[recommandID[i]].c_str())<< "\n";
-	}*/
 
 	string subdir;
 	getSubDir(subdir, "\input");//input所在文件名，"xxxx\\input"
-	//char strid[10];
-	//itoa(ID,strid,10);
-	//subdir += string(strid);
-	//subdir += ".html";
-	//qDebug() << "url:"<<filepath << "\n";
-	//显示当前文章
+	//显示加载中
+	loadingMovie = new QMovie(":/news_system_ui/images/loading.gif");
+	loading = new QLabel(this);
+	loading->setGeometry(300, 300, 100, 100);
+	loading->setMovie(loadingMovie);
+	loadingMovie->start();
+	loading->show();
+	qDebug() << "loading label\n";
+	//显示加载进度
+	loadingBar = new QProgressBar(this);
+	loadingBar->setValue(0);
+	loadingBar->setGeometry(100, 450, 600, 10);
+	loadingBar->show();
+	qDebug() << "loading bar\n";
+
 	ui->webEngineView->load(QUrl::fromLocalFile(filepath));
+	connect(ui->webEngineView, SIGNAL(loadStarted()), this, SLOT(viewLoadStart()));
+	connect(ui->webEngineView, SIGNAL(loadProgress(int)), this, SLOT(viewLoadProgress(int)));
+	connect(ui->webEngineView, SIGNAL(loadFinished(bool)), this, SLOT(viewLoadFinished(bool)));
+
 	totalArticles = recommandID.size();//推荐文章的总数
 	recommandList = new QLabel*[totalArticles];//推荐列表
-	int height = (600 - ui->label->height()) / totalArticles;//一个推荐的标题的高度
+	int height = (800 - ui->label->height()) / totalArticles;//一个推荐的标题的高度
 
 	for (int i = 0, len = recommandID.size(); i < len; i++) {
-		/*QString href = "a <href="">";
-		QString title = father->ID2title[recommandID[i]].c_str();
-		QString text = href + title;*/
 		char fileid[10];
 		int id = recommandID[i];
 		itoa(id, fileid, 10);
@@ -55,7 +55,7 @@ PageScene::PageScene(QWidget* parent) :
 		qDebug() << "filepath+title in the label is" << text << "\n";
 		recommandList[i] = new QLabel(text, this);
 		int startx = ui->webEngineView->width() + 20;
-		int width = 800 - startx;
+		int width = 1100 - startx;
 		recommandList[i]->setGeometry(startx,height*i,width,height);
 		connect(recommandList[i], SIGNAL(linkActivated(QString)), this, SLOT(openUrl(QString)));
 		recommandList[i]->show();
@@ -65,12 +65,39 @@ PageScene::PageScene(QWidget* parent) :
 }
 
 void PageScene::openUrl(QString str) {
+	//通过str获取点击的网页的id  str=xxx\\input\\0.html
+	int startidx = str.lastIndexOf("\\");
+	int endidx = str.lastIndexOf(".html");//[start+1,end-1]
+	QString idstr = str.mid(startidx + 1, endidx - 1 - startidx);
+	QByteArray ba = idstr.toLocal8Bit();
+	char* data = ba.data();
+	father->currentID = atoi(data);//修改father当前即将跳转的网页的ID
 	int length = str.size() - 1;
 	QString path = str.mid(0, length);
-	qDebug() << "jump to file:" << path << "\n";//str=xxx\\input\\0.html
 	emit toPage(path);//发送跳转到具体html的信号
 }
 
-PageScene::~PageScene() {
+void PageScene::viewLoadProgress(int progress) {
+	if (progress >= 0 && progress <= 100) {
+		loadingBar->setValue(progress);
+		qDebug() << progress << '\n';
+	}
+}
 
+void PageScene::viewLoadFinished(bool ok) {
+	if (ok) {
+		loading->setVisible(false);
+		loadingBar->setVisible(false);//为了避免不必要的bug，不提前delete当前场景上的组件
+		qDebug() << "loading finished!\n";
+	}
+}
+
+void PageScene::viewLoadStart() {
+	qDebug() << "loading start!\n";
+}
+
+PageScene::~PageScene() {
+	delete recommandList;
+	delete loadingMovie;
+	delete ui;
 }

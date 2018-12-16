@@ -30,15 +30,15 @@ public:
     {
         if (Page->objectName().isEmpty())
             Page->setObjectName(QStringLiteral("Page"));
-        Page->resize(800, 600);
+        Page->resize(1100, 800);
         Page->setStyleSheet(QStringLiteral("background-color:rgb(255,255,255)"));
         webEngineView = new QWebEngineView(Page);
         webEngineView->setObjectName(QStringLiteral("webEngineView"));
-        webEngineView->setGeometry(QRect(10, 10, 561, 581));
+        webEngineView->setGeometry(QRect(10, 10, 821, 781));
         webEngineView->setUrl(QUrl(QStringLiteral("about:blank")));
         label = new QLabel(Page);
         label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(630, 50, 131, 71));
+        label->setGeometry(QRect(920, 40, 131, 71));
 
         retranslateUi(Page);
 

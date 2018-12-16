@@ -1,4 +1,5 @@
 <RCC>
-    <qresource prefix="news_system_ui">
+    <qresource prefix="/news_system_ui">
+        <file>images/loading.gif</file>
     </qresource>
 </RCC>
