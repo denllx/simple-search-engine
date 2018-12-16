@@ -18,6 +18,9 @@ public:
 
 public slots:
 	void openUrl(QString);
+
+signals:
+	void toPage(QString str);//显示的文件名
 };
 
 #endif 

@@ -1,7 +1,9 @@
 #include "news_system_ui.h"
 #include <QtWidgets/QApplication>
 #include <QDebug>
+#include <QUrl>
 #include <iostream>
+#include <QWebEngineView>
 #include "news_extraction.h"
 #include "CharString.h"
 #include "BalanceBinaryTree.h"
@@ -152,6 +154,11 @@ int main(int argc, char *argv[]) {
 	scoreMatrix(tree, totalArticles, score, id2wordnum);//通过倒排索引构建文章-单词评分表
 	runRecommand(score, totalArticles, totalWords, title2ID, ID2title);//根据评分表计算文章相似度，输出推荐列表*/
 	QApplication a(argc, argv);
+	//QWebEngineView* view = new QWebEngineView();
+	//view->load(QUrl("file:///D:\\courses\\data_structure\\homework2\\news_system_ui\\x64\\Debug\\input0.html"));
+	//view->load(QUrl("http://www.cnblog.com/fron_csl"));
+	//view->load(QUrl::fromLocalFile("D:\\courses\\data_structure\\homework2\\news_system_ui\\x64\\Debug\\input\\0.html"));
+	//view->show();
 	Screen w;
 	w.show();
 	return a.exec();

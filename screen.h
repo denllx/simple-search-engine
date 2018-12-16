@@ -21,7 +21,9 @@ public:
 	map<CharString, int> title2ID;//从新闻标题到ID的映射
 	map<int, CharString> ID2title;//从ID到标题的映射
 	vector<pair<int, int>> ret;//通过关键词查询文件，返回<id,times>的pair
-
+	QString currentPage;//当前即将跳转的文件的名称
+	int currentID;//当前即将跳转的文件的ID
+	double** score;
 	explicit Screen(QWidget* parent = 0);
 	~Screen();
 
@@ -33,6 +35,8 @@ public slots:
 	void handleProcessed(int value);//解析文件进度
 	void startExtract();//开始解析文件
 	void getArticleID(char* sent);//根据关键词查询文章ID
+	void jumpToPage(QString str);//从列表跳转到page
+	void jumpToAnotherPage(QString str);//从一个page跳转到另一个page
 };
 
 #endif 

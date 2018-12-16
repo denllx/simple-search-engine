@@ -12,6 +12,7 @@
 #include "dividewords.h"
 #include "FileLink.h"
 #include "BalanceBinaryTree.h"
+#include "recommand.h"
 
 /*
 	解析网页的线程类
@@ -110,6 +111,14 @@ public:
 				}
 			}
 		}
+		father->totalWords = father->tree->size();
+		father->score = new double*[father->totalWords];
+		for (int i = 0; i < father->totalWords; i++) {
+			father->score[i] = new double[father->totalArticles];
+			for (int j = 0; j < father->totalArticles; j++) father->score[i][j] = 0;
+		}//shape=(总词数，总文章数) 
+
+		scoreMatrix(father->tree, father->totalArticles, father->score, father->id2wordnum);//通过倒排索引构建文章-单词评分表
 		emit extracted(-1);//解析完毕
 		cout << "词汇输出完毕！" << endl;
 	}

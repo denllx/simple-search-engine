@@ -9,12 +9,12 @@ vector<int> recommand(char* title,double** score,int totalArticles,int totalWord
 
 /*
 	计算每列和第ID列的距离
-	选取最小的前3个输出
+	选取最小的前5个输出
 */
 vector<int> _recommand(int ID, double** score,int totalArticles,int totalWords) {
 	vector<int> ret;
 	//freopen("output.txt", "w", stdout);
-	//余弦相似度最大的3篇文章
+	//余弦相似度最大的5篇文章
 	double max1=-2, max2=-2, max3 = -2,max4=-2,max5=-2;
 	int idx1 = -1, idx2 = -1, idx3 = -1,idx4=-1,idx5=-1;
 	//对当前每篇文章，计算余弦相似度

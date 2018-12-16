@@ -50,19 +50,31 @@ void Screen::getArticleID(char* sent) {
 	//将ret中的所有ID传给列表界面
 	scene->deleteLater();
 	scene = new ListScene(this);
-	/*for (int i = 0, len = ret.size(); i < len; i++) {
-		cout << ret[i].first << ' ' << ret[i].second << endl;
-		cout << ID2title[ret[i].first] << endl;
-	}*/
 	connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToPage(QString)));
 }
 
 //切换到跳转界面
 void Screen::jumpToPage(QString str) {
-	currentPage = str;
+	currentPage = str;//xxx\\input\\0.html
+	//TODO 获从文件名获取文件的ID
+	int end = str.lastIndexOf(".html");
+	int start = str.lastIndexOf("\\");
+	//数字在[start+1,end-1]
+	QString numStr = str.mid(start + 1, end - 1 - start);
+	QByteArray ba = numStr.toLatin1();
+	char* cnum = ba.data();
+	currentID=atoi(cnum);
+	qDebug() << "current id=" << currentID << "\n";
 	scene->deleteLater();
 	scene = new PageScene(this);
+	connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToAnotherPage(QString)));
 }
+
+void Screen::jumpToAnotherPage(QString str) {
+	qDebug() << "jump to another page:" << str << "\n";
+}
+
+
 void Screen::startExtract()//开始解析文件的进程
 {
 	Extractor* extractor = new Extractor(this);
