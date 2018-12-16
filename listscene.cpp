@@ -16,7 +16,7 @@ ListScene::ListScene(QWidget* parent) :
 	int height = (int)(600 / totalArticles);//一个标题的高度
 	for (int i = 0; i < totalArticles; i++) {
 		//为每个label添加跳转的文件名链接
-		QString href = "<a href=\"http://www.cnblog.com/fron_csl\">";
+		QString href = "<a href="">";
 		QString display=QString::fromLocal8Bit(father->ID2title[father->ret[i].first].c_str());
 		QString text = href + display;
 		list[i] = new QLabel(text,this);

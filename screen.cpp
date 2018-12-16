@@ -7,6 +7,7 @@
 #include "query.h"
 #include "inputscene.h"
 #include "listscene.h"
+#include "pagescene.h"
 
 /*void Screen::changeText() {
 	ui.label->setText("clicked!");
@@ -53,14 +54,22 @@ void Screen::getArticleID(char* sent) {
 		cout << ret[i].first << ' ' << ret[i].second << endl;
 		cout << ID2title[ret[i].first] << endl;
 	}*/
+	connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToPage(QString)));
 }
 
+//切换到跳转界面
+void Screen::jumpToPage(QString str) {
+	currentPage = str;
+	scene->deleteLater();
+	scene = new PageScene(this);
+}
 void Screen::startExtract()//开始解析文件的进程
 {
 	Extractor* extractor = new Extractor(this);
 	connect(extractor, SIGNAL(extracted(int)), this, SLOT(handleProcessed(int)));
 	extractor->start();
 }
+
 
 Screen::~Screen() {
 	delete ui;
