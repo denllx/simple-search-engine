@@ -36,11 +36,11 @@ bool BalanceBinaryTree::_search(WordNode* root, char* s, WordNode* father, WordN
 		result = father;
 		return false;//查找失败
 	}
-	else if ( root->content==s) {
+	else if (root->content == s) {
 		result = root;
 		return true;
 	}
-	else if ( root->content>s) {
+	else if (root->content > s) {
 		return _search(root->left, s, root, result);
 	}
 	else {
@@ -64,26 +64,26 @@ bool BalanceBinaryTree::search(char* s, WordNode*& result) {
 //若已经在树中，ret=所在为之
 //若不在树中,ret=插入的位置
 //如插入成功，返回true
-bool BalanceBinaryTree::insert(WordNode*& node, WordNode*& ret, CharString& s) {
-	bool inserted=false;
+bool BalanceBinaryTree::insert(WordNode*& node, WordNode*& ret, char* s) {
+	bool inserted = false;
 	if (!node) {
 		node = new WordNode(s);//出现在1篇文章中，总出现次数为1
 		ret = node;
 		inserted = true;
 		_size++;
 	}
-	else if (s < node->content) {
-		inserted=insert(node->left,ret, s);
+	else if (strcmp(s, node->content) < 0) {
+		inserted = insert(node->left, ret, s);
 		//左边高
 		if (_getHeight(node->left) - _getHeight(node->right) > 1) {
-			if (s < node->left->content) node = _ll(node);//左左
+			if (strcmp(s, node->left->content) < 0) node = _ll(node);//左左
 			else node = _lr(node);//左右
 		}
 	}
-	else if (s > node->content) {//右边高
-		inserted=insert(node->right,ret, s);
+	else if (strcmp(s, node->content) > 0) {//右边高
+		inserted = insert(node->right, ret, s);
 		if (_getHeight(node->right) - _getHeight(node->left) > 1) {
-			if (s > node->right->content) node = _rr(node);//右右
+			if (strcmp(s, node->right->content) > 0) node = _rr(node);//右右
 			else node = _rl(node);//右左
 		}
 	}
@@ -98,21 +98,21 @@ bool BalanceBinaryTree::insert(WordNode*& node, WordNode*& ret, CharString& s) {
 
 //node为删除后子树的根节点
 //返回是否删除成功
-bool BalanceBinaryTree::remove(WordNode*& node, CharString& s) {
+bool BalanceBinaryTree::remove(WordNode*& node, char* s) {
 	if (!node) return false;//待删除节点不在树中
-	else if (node->content == s) {//找到了要删除的节点
+	else if (strcmp(s, node->content) == 0) {//找到了要删除的节点
 		if (node->left && node->right) {//左右子树均非空
 			//在更高的子树上进行删除操作
 
 			//左子树更高，删除左子树中最大儿子，赋值根节点
 			if (_getHeight(node->left) > _getHeight(node->right)) {
-				node->content = _findmax(node->left)->content;//赋值
+				strcpy(node->content, _findmax(node->left)->content);//赋值
 				remove(node->left, node->content);
 			}
 
 			//右子树更高，删除右子树中最小儿子，赋值根节点
 			else {
-				node->content = _findmin(node->right)->content;//赋值
+				strcpy(node->content, _findmin(node->right)->content);//赋值
 				remove(node->right, node->content);
 			}
 		}
@@ -137,7 +137,7 @@ bool BalanceBinaryTree::remove(WordNode*& node, CharString& s) {
 			}
 		}
 		else {//不需要旋转
-			node->height = max(_getHeight(node->left), _getHeight(node->right))+1;
+			node->height = max(_getHeight(node->left), _getHeight(node->right)) + 1;
 		}
 	}
 	else {
@@ -180,8 +180,8 @@ WordNode* BalanceBinaryTree::_rr(WordNode* node) {
 	q->left = node;
 	//node = q;
 	//调整高度
-	node->height = max(_getHeight(node->left), _getHeight(node->right))+1;
-	q->height = max(_getHeight(q->left), _getHeight(q->right))+1;
+	node->height = max(_getHeight(node->left), _getHeight(node->right)) + 1;
+	q->height = max(_getHeight(q->left), _getHeight(q->right)) + 1;
 	return q;
 }
 
@@ -189,7 +189,7 @@ WordNode* BalanceBinaryTree::_rr(WordNode* node) {
 WordNode* BalanceBinaryTree::_lr(WordNode* node) {
 	//先对node的左节点进行RR
 	//再对根节点进行LL
-	node->left=_rr(node->left);
+	node->left = _rr(node->left);
 	return this->_ll(node);
 }
 
@@ -197,7 +197,7 @@ WordNode* BalanceBinaryTree::_lr(WordNode* node) {
 WordNode* BalanceBinaryTree::_rl(WordNode* node) {
 	//先对node的右儿子进行LL
 	//再对根节点进行RR
-	node->right=_ll(node->right);
+	node->right = _ll(node->right);
 	return this->_rr(node);
 }
 
@@ -220,12 +220,11 @@ WordNode* BalanceBinaryTree::_findmin(WordNode* node) {
 	return _findmin(node->left);
 }
 
-void BalanceBinaryTree::inorderTraversal(WordNode* node,void visit(WordNode*)) {
+void BalanceBinaryTree::inorderTraversal(WordNode* node, void visit(WordNode*)) {
 	if (node) {
-		inorderTraversal(node->left,visit);
+		inorderTraversal(node->left, visit);
 		visit(node);
-		cout << node->content << endl;
-		inorderTraversal(node->right,visit);
+		inorderTraversal(node->right, visit);
 	}
 }
 
@@ -249,7 +248,7 @@ void sortNodeFile(WordNode* node) {
 		cout << "";
 	}
 	int len = node->times;
-	FileLink* links = new FileLink[len+1];
+	FileLink* links = new FileLink[len + 1];
 	FileNode* p = node->firstfile->head;
 	while (p) {
 		FileNode* tmp = p->next;

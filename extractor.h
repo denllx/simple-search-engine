@@ -30,76 +30,61 @@ public:
 	}
 
 	virtual void run() Q_DECL_OVERRIDE {
-		clock_t start = clock();
-		HashTable dic(580000), stop(4000);
-		initDictionary(dic, stop);//加载中文,标点,停止词库
-		clock_t end = clock();
-		cout << "加载词库共耗时" << (end - start) / CLOCKS_PER_SEC << "秒" << endl;
-
 		string inputdir;
 		getSubDir(inputdir, "\input");
 		vector<string> files;
 		getFiles(inputdir, files);
-		vector<CharString> newWordsAll, newStopAll;
 		int len = files.size();
 		father->totalArticles = len;//文章总数
 		father->id2wordnum = new int[len];//每个ID对应一个总词数
 		for (int i = 0; i < len; i++) father->id2wordnum[i] = 0;
 		CharString dir;//当前目录
 		int ID;//文件编号
+		string title;
+		char word[40];//从.txt读入单词
+		int numwords;//单篇文章单词总数
+
 		for (int i = 0; i < len; ++i) {
-			CharStringLink divideResult;
-			NewsInfo info;
-			vector<CharString> newWords, newStop;//词库中新增的新词
 			string s = files[i];
 			//获取前缀和编号
 			getprefix(files[i], dir, ID);
-			//根据前缀、编号、后缀、output构建输出文件名
 			const char* outnameInfo = getOutputName(dir.c_str(), ID, ".info");
-			//freopen(outnameInfo, "w", stdout);
-			ofstream fout(outnameInfo);
-			info = extractInfo(s);//提取关键信息
-			father->title2ID.insert(pair<CharString, int>(info.title, ID));//插入一条标题-ID映射
-			father->ID2title.insert(pair<int, CharString>(ID, info.title));//插入一条ID-标题映射
-			fout << info << endl;
-			fout.close();
 
-			divideWords(info.body, dic, stop, newWords, newStop, divideResult);
-			father->id2wordnum[ID] = divideResult.size();//第ID篇文章的总词数
+			//从.info文件中读取标题
+			ifstream fin(outnameInfo);
+			//fin.getline(title, 50);
+			getline(fin, title);
+			father->title2ID.insert(pair<CharString, int>(title.c_str(), ID));//插入一条标题-ID映射
+			father->ID2title.insert(pair<int, CharString>(ID, title.c_str()));//插入一条ID-标题映射
+			fin.close();
+
+			//从.txt中读取单词，建立平衡二叉树
 			const char* outnameTxt = getOutputName(dir.c_str(), ID, ".txt");
-			//freopen(outnameTxt, "w", stdout);
-			ofstream fout1(outnameTxt);
-			fout << divideResult << endl;//输出分词结果到文件
-			//freopen("CON", "w", stdout);//重定向到控制台
-			fout.close();
-
-			newWordsAll.insert(newWordsAll.end(), newWords.begin(), newWords.end());
-			newStopAll.insert(newStopAll.end(), newStop.begin(), newStop.end());
-			cout << "第" << (i + 1) << "篇文章解析完毕！ " << ID << endl;
-			emit extracted(int((i + 1)*100/len));
-			//填充单词平衡二叉树
-			for (StringNode* p = divideResult.head; p; p = p->next) {
-				WordNode* ret = nullptr;
+			ifstream fin1(outnameTxt);
+			numwords = 0;
+			while (!fin1.eof()) {
+				fin1 >> word;
+				numwords++;
 				//将新的单词节点插入平衡二叉树
-				bool inserted = father->tree->insert(father->tree->root, ret, p->str);
+				WordNode* ret = nullptr;//插入位置
+				bool inserted = father->tree->insert(father->tree->root, ret, word);
 				if (inserted) {//在二叉树中第一次出现
 					//修改单词节点的属性
 					ret->articles = 1;
 					ret->times = 1;
 					//新建文件节点、修改属性
-					FileNode* file = new FileNode(ID, p->str);
+					FileNode* file = new FileNode(ID, word);
 					file->times++;
 					//文件连到单词的文档链表中
 					ret->insertFile(file);
 				}
 				else {//非新节点
 					FileNode* tmp = NULL;
-					bool exist = ret->searchFile(ID, tmp);
+					bool exist = ret->searchFile(ID, tmp);//该单词是否在文档中第一次出现
 					if (!exist) {
-						//该单词在本文档中第一次出现
 						ret->articles++;
 						ret->times++;
-						FileNode* newfile = new FileNode(ID, p->str);
+						FileNode* newfile = new FileNode(ID, word);
 						newfile->times++;
 						ret->insertFile(newfile);
 					}
@@ -108,10 +93,15 @@ public:
 						ret->times++;
 						tmp->times++;
 					}
+
 				}
 			}
+			fin1.close();
+			father->id2wordnum[ID] = numwords;
+			emit extracted(int((i + 1) * 100 / len));
 		}
-		father->totalWords = father->tree->size();
+
+		father->totalWords = father->tree->size();//总词数，约43万
 		father->score = new double*[father->totalWords];
 		for (int i = 0; i < father->totalWords; i++) {
 			father->score[i] = new double[father->totalArticles];

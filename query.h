@@ -4,7 +4,7 @@
 #include <vector>
 #include <map>
 #include "CharStringLink.h"
-#include "inverted_file_index.h"
+#include "BalanceBinaryTree.h"
 using namespace std;
 
 

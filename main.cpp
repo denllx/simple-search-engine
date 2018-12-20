@@ -4,7 +4,6 @@
 #include <QUrl>
 #include <iostream>
 #include <QWebEngineView>
-#include "news_extraction.h"
 #include "CharString.h"
 #include "BalanceBinaryTree.h"
 #include <stdlib.h>
@@ -134,43 +133,9 @@ void testmalloc() {
 	hello(a);
 }
 int main(int argc, char *argv[]) {
-	/*BalanceBinaryTree* tree = new BalanceBinaryTree;
-
-	int* id2wordnum = NULL;//每个ID的文章中包含的总词数
-	int totalArticles = 0, totalWords = 0;//文章总数，词语总数
-	map<CharString, int> title2ID;//从新闻标题到ID的映射
-	map<int, CharString> ID2title;//从ID到标题的映射
-
-	newsExtraction(tree, id2wordnum, totalArticles, title2ID, ID2title);//提取新闻
-
-	totalWords = tree->size();//总词数
-
-	runQuery(tree);//查询关键字
-
-	double** score = new double*[totalWords];
-	for (int i = 0; i < totalWords; i++) {
-		score[i] = new double[totalArticles];
-		for (int j = 0; j < totalArticles; j++) score[i][j] = 0;
-	}//shape=(总词数，总文章数) 
-
-	scoreMatrix(tree, totalArticles, score, id2wordnum);//通过倒排索引构建文章-单词评分表
-	runRecommand(score, totalArticles, totalWords, title2ID, ID2title);//根据评分表计算文章相似度，输出推荐列表*/
 	QApplication a(argc, argv);
-	//QWebEngineView* view = new QWebEngineView();
-	//view->load(QUrl("file:///D:\\courses\\data_structure\\homework2\\news_system_ui\\x64\\Debug\\input0.html"));
-	//view->load(QUrl("http://www.cnblog.com/fron_csl"));
-	//view->load(QUrl::fromLocalFile("D:\\courses\\data_structure\\homework2\\news_system_ui\\x64\\Debug\\input\\0.html"));
-	//view->show();
 	Screen w;
 	w.show();
-	/*QMovie* movie = new QMovie(":/news_system_ui/images/loading.gif");
-	QLabel* label = new QLabel();
-	label->setText("hello");
-	label->setFixedHeight(100);
-	label->setFixedWidth(100);
-	label->setMovie(movie);
-	movie->start();
-	label->show();*/
 	return a.exec();
 }
 

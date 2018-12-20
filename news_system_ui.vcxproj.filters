@@ -63,12 +63,6 @@
     <ClCompile Include="hashtable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inverted_file_index.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="news_extraction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="query.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -174,12 +168,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="hashtable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inverted_file_index.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="news_extraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="query.h">

@@ -9,14 +9,19 @@ class WordNode {
 public:
 	int articles;//在多少篇文章中出现过
 	int times;//总共出现次数
-	CharString content;//单词内容
+	char* content;//单词内容
 	WordNode* left, *right;
 	int height;//当前节点的高度，空节点为-1，叶子节点为0
 	FileLink* firstfile;//指向第一个文档节点的指针（也是出现次数最多的）
 
-	WordNode(CharString& s) :firstfile(new FileLink), height(0), content(s), times(0), articles(0), left(nullptr), right(nullptr) {}
+	WordNode(char* s) :firstfile(new FileLink), height(0), times(0), articles(0), left(nullptr), right(nullptr) {
+		content = new char[strlen(s) + 1];
+		int i = 0;
+		for (; s[i] != '\0'; i++) content[i] = s[i];
+		content[i] = '\0';
+	}
 	void insertFile(FileNode* filenode) { firstfile->insert(filenode); }
-	bool searchFile(int ID,FileNode*& file);//查找某ID的文件是否存在文档列表中，若存在，返回指向该文档的指针
+	bool searchFile(int ID, FileNode*& file);//查找某ID的文件是否存在文档列表中，若存在，返回指向该文档的指针
 };
 
 void printNode(WordNode* node);
@@ -26,14 +31,14 @@ class BalanceBinaryTree {
 
 public:
 	WordNode* root;//根节点
-	BalanceBinaryTree():root(nullptr),_size(0){}
-	BalanceBinaryTree(WordNode* r):root(r),_size(0){}
+	BalanceBinaryTree() :root(nullptr), _size(0) {}
+	BalanceBinaryTree(WordNode* r) :root(r), _size(0) {}
 
-	bool search(CharString& s,WordNode*& result);
+	bool search(CharString& s, WordNode*& result);
 	bool search(char* s, WordNode*& result);
-	bool insert(WordNode*& node,WordNode*& ret, CharString& s);
-	void inorderTraversal(WordNode* node,void visit(WordNode*));//以node为根中序遍历
-	bool remove(WordNode*& node, CharString& s);//删除值为s的节点，返回删除后子树的根节点node
+	bool insert(WordNode*& node, WordNode*& ret, char* s);
+	void inorderTraversal(WordNode* node, void visit(WordNode*));//以node为根中序遍历
+	bool remove(WordNode*& node, char* s);//删除值为s的节点，返回删除后子树的根节点node
 	int size() { return _size; }
 
 private:
