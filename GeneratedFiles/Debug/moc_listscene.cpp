@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ListScene_t {
-    QByteArrayData data[5];
-    char stringdata0[30];
+    QByteArrayData data[6];
+    char stringdata0[38];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,10 +35,11 @@ QT_MOC_LITERAL(0, 0, 9), // "ListScene"
 QT_MOC_LITERAL(1, 10, 6), // "toPage"
 QT_MOC_LITERAL(2, 17, 0), // ""
 QT_MOC_LITERAL(3, 18, 3), // "str"
-QT_MOC_LITERAL(4, 22, 7) // "openUrl"
+QT_MOC_LITERAL(4, 22, 7), // "toInput"
+QT_MOC_LITERAL(5, 30, 7) // "openUrl"
 
     },
-    "ListScene\0toPage\0\0str\0openUrl"
+    "ListScene\0toPage\0\0str\0toInput\0openUrl"
 };
 #undef QT_MOC_LITERAL
 
@@ -48,21 +49,23 @@ static const uint qt_meta_data_ListScene[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    1,   29,    2, 0x06 /* Public */,
+       4,    0,   32,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    1,   27,    2, 0x0a /* Public */,
+       5,    1,   33,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -77,7 +80,8 @@ void ListScene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->toPage((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 1: _t->openUrl((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->toInput(); break;
+        case 2: _t->openUrl((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -87,6 +91,13 @@ void ListScene::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
             typedef void (ListScene::*_t)(QString );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ListScene::toPage)) {
                 *result = 0;
+                return;
+            }
+        }
+        {
+            typedef void (ListScene::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ListScene::toInput)) {
+                *result = 1;
                 return;
             }
         }
@@ -118,13 +129,13 @@ int ListScene::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
@@ -134,6 +145,12 @@ void ListScene::toPage(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void ListScene::toInput()
+{
+    QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

@@ -21,9 +21,10 @@ class PageScene :public Scene {
 	Q_OBJECT
 private:
 	QLabel** recommandList;//每个QLabel显示一个标题，个数通过Screen确定
-	QLabel* loading;//在load尚未完成时显示转圈圈
-	QProgressBar* loadingBar;//在loading尚未完成时选择进度
-	QMovie* loadingMovie;//loading的图片
+	QLabel** recommandAbst;//每个QLabel显示一个摘要，在标题下方
+	//QLabel* loading;//在load尚未完成时显示转圈圈
+	//QProgressBar* loadingBar;//在loading尚未完成时选择进度
+	//QMovie* loadingMovie;//loading的图片
 	Ui::Page* ui;
 	int totalArticles;//推荐列表的文章总数，通过father获取
 	int ID;//当前文章的ID
@@ -34,13 +35,11 @@ public:
 	~PageScene();
 
 public slots:
-	void openUrl(QString str);
-	void viewLoadProgress(int progress);//更改loadingBar的数值
-	void viewLoadFinished(bool ok);//加载完成
-	void viewLoadStart();//加载开始
+	void openUrl(QString str);//点击跳转
 
 signals:
-	void toPage(QString url);
+	void toPage(QString filename);//跳转到相应文件名
+	void backPage();//回到上一页
 };
 
 

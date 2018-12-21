@@ -1,5 +1,6 @@
 #include <QTextCodec>
 #include <QDebug>
+#include <string>
 #include "screen.h"
 #include "pagescene.h"
 #include "getfile.h"
@@ -9,95 +10,115 @@ PageScene::PageScene(QWidget* parent) :
 	Scene(parent),
 	ui(new Ui::Page) {
 	ui->setupUi(this);
-	filepath = father->currentPage;
-	ID = father->currentID;
-	qDebug() << "id of displayed file is" << ID << "\n";
-	recommandID = _recommand(ID, father->score, father->totalArticles, father->totalWords);
-	qDebug() << "recommand id and filename:\n";
-	QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));
+	filepath = father->currentPage;//当前网页的名称(xxx.info)
+	ID = father->currentID;//当前网页的ID
+	recommandID = father->currentRecommand;//当前网页的推荐的ID列表
+
+	QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));//支持中文
 
 	string subdir;
-	getSubDir(subdir, "\input");//input所在文件名，"xxxx\\input"
+	getSubDir(subdir, "\output");//output文件夹路径，"xxxx\\output"
 	//显示加载中
-	loadingMovie = new QMovie(":/news_system_ui/images/loading.gif");
+	/*loadingMovie = new QMovie(":/news_system_ui/images/loading.gif");
 	loading = new QLabel(this);
 	loading->setGeometry(300, 300, 100, 100);
 	loading->setMovie(loadingMovie);
 	loadingMovie->start();
-	loading->show();
-	qDebug() << "loading label\n";
+	loading->show();*/
 	//显示加载进度
-	loadingBar = new QProgressBar(this);
+	/*loadingBar = new QProgressBar(this);
 	loadingBar->setValue(0);
 	loadingBar->setGeometry(100, 450, 600, 10);
-	loadingBar->show();
-	qDebug() << "loading bar\n";
+	loadingBar->show();*/
 
-	ui->webEngineView->load(QUrl::fromLocalFile(filepath));
-	connect(ui->webEngineView, SIGNAL(loadStarted()), this, SLOT(viewLoadStart()));
-	connect(ui->webEngineView, SIGNAL(loadProgress(int)), this, SLOT(viewLoadProgress(int)));
-	connect(ui->webEngineView, SIGNAL(loadFinished(bool)), this, SLOT(viewLoadFinished(bool)));
+	//从.info中读取文章信息
+	QByteArray ba = father->currentPage.toLatin1();
+	ifstream fin(ba.data());
+	string title;//标题
+	getline(fin, title);
+	string time;//时间
+	getline(fin, time);
+	string source;//来源
+	getline(fin, source);
+	string main,sentence;//正文
+	while (!fin.eof()) {
+		fin >> sentence;
+		main += sentence;
+		main += '\n';
+	}
+	fin.close();
+	//在browser中显示文章
+	ui->titlebrowser->setText(QString::fromLocal8Bit(title.c_str()));
+	ui->titlebrowser->setAlignment(Qt::AlignCenter);
+	ui->timebrowser->setText(QString::fromLocal8Bit(time.c_str()));
+	ui->sourcebrowser->setText(QString::fromLocal8Bit(source.c_str()));
+	ui->mainbrowser->setText(QString::fromLocal8Bit(main.c_str()));
+	
 
 	totalArticles = recommandID.size();//推荐文章的总数
-	recommandList = new QLabel*[totalArticles];//推荐列表
-	int height = (800 - ui->label->height()) / totalArticles;//一个推荐的标题的高度
+	recommandList = new QLabel*[totalArticles];//推荐标题
+	recommandAbst = new QLabel*[totalArticles];//推荐摘要
+	int height = (800 - ui->label->height()) / totalArticles;//标题+摘要的高度
+	int h1 = height * 0.3, h2 = height * 0.7;//标题，摘要的高度
 
 	for (int i = 0, len = recommandID.size(); i < len; i++) {
 		char fileid[10];
 		int id = recommandID[i];
 		itoa(id, fileid, 10);
-		string filename =subdir + "\\" + string(fileid) + ".html";//文件名 xxx\\input\\0.html
+		string filename =subdir + "\\" + string(fileid) + ".info";//文件名 xxx\\output\\0.info
 		QString title = QString::fromLocal8Bit(father->ID2title[id].c_str());//标题
 		QString href = "<a href=";
 		href += QString(filename.c_str());
 		href += "\">";
 		QString text = href + title;
-		qDebug() << "filepath+title in the label is" << text << "\n";
+
+		//绘制标题
 		recommandList[i] = new QLabel(text, this);
-		int startx = ui->webEngineView->width() + 20;
+		int startx = 800;
 		int width = 1100 - startx;
-		recommandList[i]->setGeometry(startx,height*i,width,height);
-		connect(recommandList[i], SIGNAL(linkActivated(QString)), this, SLOT(openUrl(QString)));
+		recommandList[i]->setGeometry(startx,height*i,width,h1);
+		connect(recommandList[i], SIGNAL(linkActivated(QString)), this, SLOT(openUrl(QString)));//点击链接跳转
 		recommandList[i]->show();
+
+		//绘制摘要
+		ifstream fin(filename);
+		string intitle, intime, insrc, inmain, sent1, sent2;
+		getline(fin, intitle);
+		getline(fin, intime);
+		getline(fin, insrc);
+		getline(fin, inmain);
+		getline(fin, sent1);
+		getline(fin, sent2);
+		inmain = sent1 + sent2 + "...";
+		fin.close();
+		recommandAbst[i] = new QLabel(QString::fromLocal8Bit(inmain.c_str()), this);
+		recommandAbst[i]->setGeometry(startx, height*i + h1, width, h2);
+		//recommandAbst[i]->adjustSize();
+		recommandAbst[i]->setWordWrap(true);
+		recommandAbst[i]->setAlignment(Qt::AlignTop);//自动换行
+		recommandAbst[i]->show();
 	}
-	//TODO绑定链接
+
+	//后退按钮
+	connect(ui->back, SIGNAL(clicked()), this, SIGNAL(backPage()));
 	this->show();
 }
 
+
+/*
+	点击链接后向主窗口发送信号
+	str为跳转文件名+斜杠，即xx.info\（加上斜杠是为了满足链接格式）
+*/
 void PageScene::openUrl(QString str) {
-	//通过str获取点击的网页的id  str=xxx\\input\\0.html
-	int startidx = str.lastIndexOf("\\");
-	int endidx = str.lastIndexOf(".html");//[start+1,end-1]
-	QString idstr = str.mid(startidx + 1, endidx - 1 - startidx);
-	QByteArray ba = idstr.toLocal8Bit();
-	char* data = ba.data();
-	father->currentID = atoi(data);//修改father当前即将跳转的网页的ID
+	//去掉末尾的斜杠！
 	int length = str.size() - 1;
 	QString path = str.mid(0, length);
-	emit toPage(path);//发送跳转到具体html的信号
-}
-
-void PageScene::viewLoadProgress(int progress) {
-	if (progress >= 0 && progress <= 100) {
-		loadingBar->setValue(progress);
-		qDebug() << progress << '\n';
-	}
-}
-
-void PageScene::viewLoadFinished(bool ok) {
-	if (ok) {
-		loading->setVisible(false);
-		loadingBar->setVisible(false);//为了避免不必要的bug，不提前delete当前场景上的组件
-		qDebug() << "loading finished!\n";
-	}
-}
-
-void PageScene::viewLoadStart() {
-	qDebug() << "loading start!\n";
+	qDebug() << "open url:" <<path << endl;
+	emit toPage(path);
 }
 
 PageScene::~PageScene() {
 	delete recommandList;
-	delete loadingMovie;
+	//delete loadingMovie;
 	delete ui;
 }

@@ -16,6 +16,19 @@
   <property name="styleSheet">
    <string notr="true">background-color:rgb(255,255,255)</string>
   </property>
+  <widget class="QPushButton" name="back">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>后退</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

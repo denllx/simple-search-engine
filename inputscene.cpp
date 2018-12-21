@@ -7,6 +7,7 @@ InputScene::InputScene(QWidget* parent) :
 	ui->setupUi(this);
 	connect(ui->lineEdit, SIGNAL(textChanged(const QString&)), this, SLOT(changeWords(const QString&)));
 	connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(sendWords()));
+	connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(sendWords()));//»Ø³µÊäÈë
 	this->show();
 }
 

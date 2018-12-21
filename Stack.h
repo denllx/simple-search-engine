@@ -17,6 +17,7 @@ public:
 	T& top();
 	bool empty();
 	int size();
+	void clear();
 	~Stack();
 };
 
@@ -70,6 +71,12 @@ bool Stack<T>::empty() {
 template<typename T>
 int Stack<T>::size() {
 	return up - base;
+}
+
+template<typename T>
+void Stack<T>::clear() {
+	while (up!=base)
+		pop();
 }
 
 #endif
