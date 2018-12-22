@@ -1,6 +1,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <iostream>
+#include <QCloseEvent>
 #include "screen.h"
 #include "scene.h"
 #include "extractor.h"
@@ -20,12 +21,15 @@ Screen::Screen(QWidget* parent):
 //有多少个文件已经被解析
 void Screen::handleProcessed(int value) {
 	if (value == -1) {//解析完成
+		//删除线程
+		extractor->quit();
 		//确定总词数
 		totalWords = tree->size();
 		//显示输入场景
 		scene = new InputScene(this);
 		//用户点击确认后，接收来自场景的字符串并分词
 		connect(scene, SIGNAL(confirmed(char*)), this, SLOT(getArticleID(char*)));
+		denyClose = false;//之后允许用户关闭窗口
 	}
 	ui->progressBar->setValue(value);
 }
@@ -34,7 +38,7 @@ void Screen::handleProcessed(int value) {
 //找到包含关键词最多的文章ID列表
 void Screen::getArticleID(char* sent) {
 	CharStringLink words;
-	getInput(sent, words);	
+	getInput(sent, words,dic,stop);	
 	ret = query(tree, words);
 	qDebug() << "recommanded list IDs";
 	for (int i=0;i<ret.size();i++)
@@ -152,9 +156,19 @@ void Screen::jumpToInput() {
 
 void Screen::startExtract()//开始解析文件的进程
 {
-	Extractor* extractor = new Extractor(this);
+	extractor = new Extractor(this);
 	connect(extractor, SIGNAL(extracted(int)), this, SLOT(handleProcessed(int)));
 	extractor->start();
+	//设置窗口为不可关闭，防止发生线程运行时中断错误
+	//setwindowFlags(QT::window | Qt::Framelesswindowhint | QT::windowTitlehint)
+	//setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowTitleHint);	
+}
+
+//禁止关闭窗口
+void Screen::closeEvent(QCloseEvent* ev) {
+	if (denyClose) {
+		ev->ignore();
+	}
 }
 
 

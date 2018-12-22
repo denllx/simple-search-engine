@@ -18,11 +18,15 @@ class HashTable {
 
 public:
 	HashTable() {//ƒ¨»œ…Ë÷√
-		_size = 0;
+		/*_size = 0;
 		_maxsize = nextPrime(MAXSIZE);
 		_base = new char*[_maxsize];
 		occupied = new bool[_maxsize];
-		for (int i = 0; i < _maxsize; ++i) occupied[i] = false;
+		for (int i = 0; i < _maxsize; ++i) occupied[i] = false;*/
+		_size = 0;
+		_maxsize = 0;
+		_base = NULL;
+		occupied = NULL;
 	}
 	HashTable(int s) {
 		_size = 0;
@@ -30,6 +34,15 @@ public:
 		_base = new char*[_maxsize];
 		occupied = new bool[_maxsize];
 		for (int i = 0; i < _maxsize; ++i) occupied[i] = false;
+	}
+	void setcapacity(int s) {
+		_size = 0;
+		_maxsize = nextPrime(s);
+		if (_base) delete _base;
+		_base = new char*[_maxsize];
+		if (occupied) delete occupied;
+		occupied = new bool[_maxsize];
+		for (int i = 0; i < _maxsize; i++) occupied[i] = false;
 	}
 	~HashTable();
 	int size() { return _size; }

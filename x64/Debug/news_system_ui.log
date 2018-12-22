@@ -1,8 +1,35 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(944,5): warning MSB8027: 名为 qrc_news_system_ui.cpp 的两个或更多文件将生成到同一位置的输出。这会导致错误的生成结果。   调用的文件是 GeneratedFiles\qrc_news_system_ui.cpp, .\GeneratedFiles\qrc_news_system_ui.cpp。
+﻿  Moc'ing screen.h...
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(944,5): warning MSB8027: 名为 qrc_news_system_ui.cpp 的两个或更多文件将生成到同一位置的输出。这会导致错误的生成结果。   调用的文件是 GeneratedFiles\qrc_news_system_ui.cpp, .\GeneratedFiles\qrc_news_system_ui.cpp。
+  moc_extractor.cpp
+  moc_screen.cpp
+  extractor.cpp
   listscene.cpp
+  main.cpp
   pagescene.cpp
-d:\courses\data_structure\homework2\news_system_ui\news_system_ui\listscene.cpp(48): warning C4129: “o”: 不可识别的字符转义序列
+  scene.cpp
+  screen.cpp
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 scene.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 scene.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 listscene.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 listscene.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 .\GeneratedFiles\Debug\moc_screen.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 .\GeneratedFiles\Debug\moc_screen.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 extractor.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 .\GeneratedFiles\Debug\moc_extractor.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 .\GeneratedFiles\Debug\moc_extractor.cpp)
 d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 pagescene.cpp)
   d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 pagescene.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 main.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 main.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\hashtable.h(7): warning C4005: “MAXSIZE”: 宏重定义 (编译源文件 screen.cpp)
+  d:\courses\data_structure\homework2\news_system_ui\news_system_ui\stack.h(7): note: 参见“MAXSIZE”的前一个定义 (编译源文件 screen.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(41): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 .\GeneratedFiles\Debug\moc_extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(132): warning C4129: “o”: 不可识别的字符转义序列 (编译源文件 .\GeneratedFiles\Debug\moc_extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\listscene.cpp(48): warning C4129: “o”: 不可识别的字符转义序列
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(41): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(132): warning C4129: “o”: 不可识别的字符转义序列 (编译源文件 extractor.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(41): warning C4129: “i”: 不可识别的字符转义序列 (编译源文件 screen.cpp)
+d:\courses\data_structure\homework2\news_system_ui\news_system_ui\extractor.h(132): warning C4129: “o”: 不可识别的字符转义序列 (编译源文件 screen.cpp)
 d:\courses\data_structure\homework2\news_system_ui\news_system_ui\pagescene.cpp(23): warning C4129: “o”: 不可识别的字符转义序列
   news_system_ui.vcxproj -> D:\courses\data_structure\homework2\news_system_ui\x64\Debug\news_system_ui.exe

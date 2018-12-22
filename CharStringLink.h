@@ -21,6 +21,8 @@ public:
 	CharStringLink():head(NULL),tail(NULL),_size(0){}
 	void add(CharString s);//在表尾插入
 	void insert(CharString s);//在表头插入
+	void CharStringLink::assign(CharStringLink& s);//拷贝链表
+	void CharStringLink::concat(CharStringLink& s);//后接链表
 	void remove(CharString s);
 	bool empty() { return (head == NULL); }
 	StringNode* search(CharString s);

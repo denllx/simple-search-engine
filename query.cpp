@@ -4,20 +4,22 @@
 #include "query.h"
 #include "getfile.h"
 #include "CharStringLink.h"
+#include "dividewords.h"
 
 bool cmpByValueReverse(const pair<int, int>& p1, const pair<int, int>& p2) {
 	return p1.second > p2.second;
 }
 
-//TODO：读入多行关键字
-//获取输入的一行关键词，保存在字符串链表中
-void getInput(char* input,CharStringLink& words) {
-	
-	char word[100];
+//获取输入的一行关键词，分词，保存在字符串链表中
+void getInput(char* input,CharStringLink& words,HashTable& dic,HashTable& stop) {
+	string word;
 	stringstream ss(input);
 	while (ss >> word) {
-		CharString cs(word);
-		words.add(cs);
+		CharString cs(word.c_str());
+		vector<CharString> newwords, newstop;
+		CharStringLink ret;
+		divideWords(cs, dic, stop, newwords, newstop, ret);//分词结果
+		words.concat(ret);
 	}
 }	
 
@@ -74,6 +76,7 @@ vector<pair<int, int>> query(BalanceBinaryTree* tree,CharStringLink& words) {
 //选出最大的五个新闻
 //加入vector
 //最终输出到result
+/*
 void runQuery(BalanceBinaryTree* tree) {
 	string inputdir;
 	getSubDir(inputdir, "\\");
@@ -93,3 +96,4 @@ void runQuery(BalanceBinaryTree* tree) {
 	//将所有结果输出到文件
 	outputQueryResult(rets);
 }
+*/

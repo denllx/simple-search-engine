@@ -8,6 +8,8 @@
 #include <QDialog>
 #include "scene.h"
 #include "Stack.h"
+#include "hashtable.h"
+#include "dictionary.h"
 
 class Extractor;//进行网页解析的线程
 
@@ -26,7 +28,7 @@ public:
 	map<int, CharString> ID2title;//从ID到标题的映射
 	double** score;//打分矩阵
 	double** sim;//相似度矩阵
-
+	HashTable dic, stop;//词库
 	/*
 		每次重新搜索时都会清空的变量
 	*/
@@ -46,6 +48,9 @@ public:
 private:
 	Scene* scene;//场景类
 	Ui::Dialog* ui;//指向ui的指针
+	Extractor* extractor;//载入数据的线程
+	void closeEvent(QCloseEvent* event);
+	bool denyClose = true;//一开始载入数据时禁止关闭窗口
 
 public slots:
 	void handleProcessed(int value);//解析文件进度

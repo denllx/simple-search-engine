@@ -16,7 +16,7 @@
 
 /*
 	线程类
-	完成解析分词的读入以及平衡二叉树的构建、相似度矩阵的计算
+	完成解析分词的读入、字典的读入、平衡二叉树的构建、相似度矩阵的计算
 */
 
 class Extractor :public QThread {
@@ -31,6 +31,12 @@ public:
 	}
 
 	virtual void run() Q_DECL_OVERRIDE {
+		//载入词库
+		father->dic.setcapacity(580000);
+		father->stop.setcapacity(4000);
+		initDictionary(father->dic, father->stop);
+
+		//构建倒排文档
 		string inputdir;
 		getSubDir(inputdir, "\input");
 		vector<string> files;

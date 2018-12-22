@@ -28,6 +28,36 @@ void CharStringLink::add(CharString s) {
 	_size++;
 }
 
+//拷贝另一个链表
+void CharStringLink::assign(CharStringLink& s) {
+	StringNode* p = s.head;
+	if (!p) return;
+	head = new StringNode(p->str);
+	tail = head;
+	p = p->next;
+	while (p) {
+		StringNode* newnode = new StringNode(p->str);
+		tail->next = newnode;
+		tail = newnode;
+		p = p->next;
+	}
+}
+
+//将链表s连接到自己的后面，s保持不变
+void CharStringLink::concat(CharStringLink& s) {
+	if (head == NULL) {
+		this->assign(s);
+		return;
+	}
+	StringNode*p2 = s.head;
+	while (p2) {
+		StringNode* newnode = new StringNode(p2->str);
+		tail->next = newnode;
+		tail = newnode;
+		p2 = p2->next;
+	}
+}
+
 //插入为表头
 void CharStringLink::insert(CharString s) {
 	StringNode* newnode = new StringNode(s);

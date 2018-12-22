@@ -5,6 +5,7 @@
 #include <map>
 #include "CharStringLink.h"
 #include "BalanceBinaryTree.h"
+#include "hashtable.h"
 using namespace std;
 
 
@@ -19,13 +20,13 @@ using namespace std;
 vector<pair<int, int>> query(BalanceBinaryTree* wordsTree,CharStringLink& words);
 
 //获取一行输入，按照空格分割为关键词
-void getInput(char* s,CharStringLink& words);
+void getInput(char* s,CharStringLink& words,HashTable& dic,HashTable& stop);
 
 //将结果输出到result1.txt
 void outputQueryResult(vector<vector<pair<int, int>>>& ret);
 
 //将上述三步整合，对每行进行
-void runQuery(BalanceBinaryTree* wordsTree);
+//void runQuery(BalanceBinaryTree* wordsTree);
 
 
 #endif 
