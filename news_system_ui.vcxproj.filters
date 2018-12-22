@@ -93,6 +93,9 @@
     <ClCompile Include="pagescene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="guiutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="news_system_ui.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_page.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="guiutils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

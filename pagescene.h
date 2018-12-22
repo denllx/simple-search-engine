@@ -30,6 +30,7 @@ private:
 	int ID;//当前文章的ID
 	QString filepath;//当前文章的path，以file:///开头	
 	vector<int> recommandID;//推荐文章的ID
+	vector<int> clickPageLinks;//点击过的文章ID
 public:
 	explicit PageScene(QWidget* parent = 0);
 	~PageScene();

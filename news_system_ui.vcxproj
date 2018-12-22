@@ -130,6 +130,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="getfile.cpp" />
+    <ClCompile Include="guiutils.cpp" />
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="inputscene.cpp" />
     <ClCompile Include="listscene.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="GeneratedFiles\ui_news_system_ui.h" />
     <ClInclude Include="GeneratedFiles\ui_page.h" />
     <ClInclude Include="getfile.h" />
+    <ClInclude Include="guiutils.h" />
     <ClInclude Include="hashtable.h" />
     <QtMoc Include="inputscene.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWebEngine;$(QTDIR)\include\QtWebEngineCore;$(QTDIR)\include\QtWebEngineWidgets;$(QTDIR)\include\QtWidgets</IncludePath>

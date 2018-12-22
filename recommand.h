@@ -9,11 +9,13 @@
 
 using namespace std;
 
-vector<int> recommand(string& title,double** score,int totalArticles,int totalWords,map<CharString,int>& title2ID);//根据标题返回推荐ID列表
+void simMatrix(double** sim, double** score, int totalArticles, int totalWords);//计算相似度矩阵
+//vector<int> recommand(string& title,double** score,int totalArticles,int totalWords,map<CharString,int>& title2ID);//根据标题返回推荐ID列表
 vector<int> _recommand(int ID,double** score,int totalArticles,int totalWords);//根据ID返回推荐ID列表
 double cossim(double** score, int col1, int col2,int lines);//计算score矩阵中指定两列的曼哈顿距离
 void scoreMatrix(BalanceBinaryTree* tree, int totalArticles,double** score,int* id2wordnum);//返回每个文件的评分
 void _scorematrix(WordNode* node, int totalArticles, double** score, int* id2wordnum,int& cnt);//不对用户公开的接口
+void readsimMatrix(double** sim,int totalArticles);
 double tfIdf(WordNode* word, FileNode* file,int totalArticles,int* id2wordnum);//计算tf-idf评分
 void outputScoreMatrix(double** score,int totalArticles,int cnt);//打印评分矩阵
 void runRecommand(double** score,int totalArticles,int totalWords,map<CharString,int>& title2ID,map<int,CharString>& ID2title);//以上的组合

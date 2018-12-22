@@ -15,7 +15,8 @@
 #include "recommand.h"
 
 /*
-	解析网页的线程类
+	线程类
+	完成解析分词的读入以及平衡二叉树的构建、相似度矩阵的计算
 */
 
 class Extractor :public QThread {
@@ -98,17 +99,41 @@ public:
 			}
 			fin1.close();
 			father->id2wordnum[ID] = numwords;
-			emit extracted(int((i + 1) * 100 / len));
+			emit extracted(int((i + 1) * 50 / len));
 		}
 
 		father->totalWords = father->tree->size();//总词数，约43万
+
+		/*
+		//初始化评分矩阵
 		father->score = new double*[father->totalWords];
 		for (int i = 0; i < father->totalWords; i++) {
 			father->score[i] = new double[father->totalArticles];
 			for (int j = 0; j < father->totalArticles; j++) father->score[i][j] = 0;
 		}//shape=(总词数，总文章数) 
+		//计算评分矩阵
+		scoreMatrix(father->tree, father->totalArticles, father->score, father->id2wordnum);//通过倒排索引构建文章-单词评分表*/
 
-		scoreMatrix(father->tree, father->totalArticles, father->score, father->id2wordnum);//通过倒排索引构建文章-单词评分表
+		//读取相似度矩阵
+		father->sim = new double*[father->totalArticles];
+		for (int i = 0; i < father->totalArticles; i++) {
+			father->sim[i] = new double[father->totalArticles];
+			emit(extracted(50 + int(25 * (i + 1) / father->totalArticles)));
+
+		}
+		//readsimMatrix(father->sim, father->totalArticles);
+		string subdir;
+		getSubDir(subdir, "\output");
+		subdir += "\\sim.txt";
+		ifstream fin(subdir);
+		for (int i = 0; i < father->totalArticles; i++) {
+			for (int j = 0; j < father->totalArticles; j++) {
+				fin >> father->sim[i][j];
+				emit(extracted(75 + int(25 * (i + 1) / father->totalArticles)));
+			}
+		}
+		fin.close();
+
 		emit extracted(-1);//解析完毕
 		cout << "词汇输出完毕！" << endl;
 	}

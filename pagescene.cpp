@@ -5,6 +5,7 @@
 #include "pagescene.h"
 #include "getfile.h"
 #include "recommand.h"
+#include "guiutils.h"
 
 PageScene::PageScene(QWidget* parent) :
 	Scene(parent),
@@ -13,24 +14,14 @@ PageScene::PageScene(QWidget* parent) :
 	filepath = father->currentPage;//当前网页的名称(xxx.info)
 	ID = father->currentID;//当前网页的ID
 	recommandID = father->currentRecommand;//当前网页的推荐的ID列表
+	qDebug() << "init pagescene:father.linksize=" << father->clickedPagelinks.size();
+	clickPageLinks = father->clickedPagelinks[father->clickedPagelinks.size() - 1];//最后一篇文章
 
 	QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));//支持中文
 
 	string subdir;
 	getSubDir(subdir, "\output");//output文件夹路径，"xxxx\\output"
-	//显示加载中
-	/*loadingMovie = new QMovie(":/news_system_ui/images/loading.gif");
-	loading = new QLabel(this);
-	loading->setGeometry(300, 300, 100, 100);
-	loading->setMovie(loadingMovie);
-	loadingMovie->start();
-	loading->show();*/
-	//显示加载进度
-	/*loadingBar = new QProgressBar(this);
-	loadingBar->setValue(0);
-	loadingBar->setGeometry(100, 450, 600, 10);
-	loadingBar->show();*/
-
+	
 	//从.info中读取文章信息
 	QByteArray ba = father->currentPage.toLatin1();
 	ifstream fin(ba.data());
@@ -58,7 +49,7 @@ PageScene::PageScene(QWidget* parent) :
 	totalArticles = recommandID.size();//推荐文章的总数
 	recommandList = new QLabel*[totalArticles];//推荐标题
 	recommandAbst = new QLabel*[totalArticles];//推荐摘要
-	int height = (800 - ui->label->height()) / totalArticles;//标题+摘要的高度
+	int height = (750 - ui->label->height()) / totalArticles;//标题+摘要的高度
 	int h1 = height * 0.3, h2 = height * 0.7;//标题，摘要的高度
 
 	for (int i = 0, len = recommandID.size(); i < len; i++) {
@@ -67,33 +58,46 @@ PageScene::PageScene(QWidget* parent) :
 		itoa(id, fileid, 10);
 		string filename =subdir + "\\" + string(fileid) + ".info";//文件名 xxx\\output\\0.info
 		QString title = QString::fromLocal8Bit(father->ID2title[id].c_str());//标题
-		QString href = "<a href=";
+		QString href = "<a ";
+		if (std::find(clickPageLinks.begin(),clickPageLinks.end(),id)!=clickPageLinks.end())
+			href += "style='color: red;' ";//将被点击过的链接标红
+		href += "href=";
 		href += QString(filename.c_str());
 		href += "\">";
 		QString text = href + title;
 
 		//绘制标题
-		recommandList[i] = new QLabel(text, this);
+		recommandList[i] = new QLabel(text,this);
 		int startx = 800;
 		int width = 1100 - startx;
-		recommandList[i]->setGeometry(startx,height*i,width,h1);
+		int head = 111;//"相关推荐"的高度
+		recommandList[i]->setGeometry(startx,head+height*i,width,h1);
+		//recommandList[i]->adjustSize();//自适应标题大小
+		recommandList[i]->setWordWrap(true);
 		connect(recommandList[i], SIGNAL(linkActivated(QString)), this, SLOT(openUrl(QString)));//点击链接跳转
 		recommandList[i]->show();
 
 		//绘制摘要
 		ifstream fin(filename);
-		string intitle, intime, insrc, inmain, sent1, sent2;
+		string intitle, intime, insrc, inmain, sent1;
 		getline(fin, intitle);
 		getline(fin, intime);
 		getline(fin, insrc);
 		getline(fin, inmain);
 		getline(fin, sent1);
-		getline(fin, sent2);
-		inmain = sent1 + sent2 + "...";
+		inmain = sent1 + "...";
 		fin.close();
-		recommandAbst[i] = new QLabel(QString::fromLocal8Bit(inmain.c_str()), this);
-		recommandAbst[i]->setGeometry(startx, height*i + h1, width, h2);
-		//recommandAbst[i]->adjustSize();
+		
+		recommandAbst[i] = new QLabel( this);
+		recommandAbst[i]->setGeometry(startx, head + height * i + h1, width, h2);
+		//elided(recommandAbst[i], );
+		QFont font;
+		QFontMetrics fontmetrics(font);
+		QString elidedstr = fontmetrics.elidedText(
+			QString::fromLocal8Bit(inmain.c_str()),
+			Qt::ElideRight,
+			recommandAbst[i]->width() * 3);
+		recommandAbst[i]->setText(elidedstr);
 		recommandAbst[i]->setWordWrap(true);
 		recommandAbst[i]->setAlignment(Qt::AlignTop);//自动换行
 		recommandAbst[i]->show();
@@ -111,14 +115,13 @@ PageScene::PageScene(QWidget* parent) :
 */
 void PageScene::openUrl(QString str) {
 	//去掉末尾的斜杠！
+	qDebug() << "pagescene::openurl";
 	int length = str.size() - 1;
 	QString path = str.mid(0, length);
-	qDebug() << "open url:" <<path << endl;
 	emit toPage(path);
 }
 
 PageScene::~PageScene() {
 	delete recommandList;
-	//delete loadingMovie;
 	delete ui;
 }

@@ -7,6 +7,7 @@
 #include "screen.h"
 #include "listscene.h"
 #include "getfile.h"//通过ID获取文件路径
+#include "guiutils.h"
 
 ListScene::ListScene(QWidget* parent) :
 	Scene(parent),
@@ -40,7 +41,7 @@ ListScene::ListScene(QWidget* parent) :
 		//初始化每个文章标题对应的UI组建，并分配空间
 		list = new QLabel*[totalArticles];
 		abst = new QLabel*[totalArticles];
-		int height = (int)(800 / totalArticles);//一个标题和摘要的总高度
+		int height = (int)(750 / totalArticles);//一个标题和摘要的总高度
 		int h1 = height * 0.3, h2 = height * 0.7;//标题占0.3，摘要占0.7
 
 		string inputdir;
@@ -64,7 +65,7 @@ ListScene::ListScene(QWidget* parent) :
 			href += QString(filename.c_str());
 			href += "\">";
 			QString text = href + title;
-			list[i] = new QLabel(text, this);
+			list[i] = new QLabel(text,this);
 			list[i]->setGeometry(200, height*i + 40, 700, h1);
 			list[i]->setWordWrap(true);//自动换行
 			connect(list[i], SIGNAL(linkActivated(QString)),
@@ -80,8 +81,15 @@ ListScene::ListScene(QWidget* parent) :
 			getline(fin, sent2);//读入两行作为正文
 			fin.close();
 			inmain = sent1 + sent2 + "...";
-			abst[i] = new QLabel(QString::fromLocal8Bit(inmain.c_str()), this);
+			abst[i] = new QLabel(this);
 			abst[i]->setGeometry(200, height*i + h1 + 40, 700, h2);
+			QFont font;
+			QFontMetrics fontmetrics(font);
+			QString elidedstr = fontmetrics.elidedText(
+				QString::fromLocal8Bit(inmain.c_str()),
+				Qt::ElideRight,
+				abst[i]->width() * 3);
+			abst[i]->setText(elidedstr);
 			abst[i]->setWordWrap(true);
 			abst[i]->setAlignment(Qt::AlignTop);//自动换行
 		}

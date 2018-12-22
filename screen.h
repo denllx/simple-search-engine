@@ -25,18 +25,20 @@ public:
 	map<CharString, int> title2ID;//从新闻标题到ID的映射
 	map<int, CharString> ID2title;//从ID到标题的映射
 	double** score;//打分矩阵
+	double** sim;//相似度矩阵
 
 	/*
 		每次重新搜索时都会清空的变量
 	*/
 	vector<pair<int, int>> ret;//通过关键词查询文件，返回<id,times>的pair
-	vector<int> clickedLinks;//已经点击过的链接
+	vector<int> clickedLinks;//列表页上被点击过的链接的位置（从上往下数第几个）
 	QString currentPage;//当前即将跳转的文件的名称
 	Stack<QString> pages;//所有打开过的文件名，按时间顺序入栈
 	int currentID;//当前即将跳转的文件的ID
 	Stack<int> IDs;//所有打开过的文件的ID，按照时间顺序入栈
 	vector<int> currentRecommand;//当前即将跳转文件的推荐文件
 	Stack<vector<int>> recommands;//所有打开过的文件对应的推荐列表，按照时间顺序入栈
+	vector<vector<int>> clickedPagelinks;//新闻页上已经点击过的链接
 
 	explicit Screen(QWidget* parent = 0);
 	~Screen();

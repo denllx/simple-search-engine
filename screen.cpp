@@ -9,10 +9,6 @@
 #include "listscene.h"
 #include "pagescene.h"
 
-/*void Screen::changeText() {
-	ui.label->setText("clicked!");
-}*/
-
 Screen::Screen(QWidget* parent):
 	QDialog(parent),
 	ui(new Ui::Dialog)
@@ -32,7 +28,6 @@ void Screen::handleProcessed(int value) {
 		connect(scene, SIGNAL(confirmed(char*)), this, SLOT(getArticleID(char*)));
 	}
 	ui->progressBar->setValue(value);
-	//progressBar->setValue(value);
 }
 
 //接收输入界面传来的字符串
@@ -66,12 +61,22 @@ int filename2id(const QString& str) {
 
 //处理点击链接后传来的页面跳转信号
 void Screen::jumpToPage(QString str) {
+	qDebug() << "screen::jump to page";
 	currentPage = str;//xxx\\output\\0.info
 	pages.push(currentPage);
 	currentID=filename2id(currentPage);
 	IDs.push(currentID);
+	//如果不是第一个页面，将页面加入上一个页面的点击列表
+	if (!clickedPagelinks.empty()) {
+		qDebug() << "clickedpagelinks.size:" << clickedPagelinks.size();
+		clickedPagelinks[clickedPagelinks.size() - 1].push_back(currentID);
+	}
+	clickedPagelinks.push_back(vector<int>(0));//打开一个新的页面，对应一个空的点击列表
 	//计算推荐列表
-	currentRecommand = _recommand(currentID, score, totalArticles, totalWords);
+	currentRecommand = _recommand(currentID, sim, totalArticles, totalWords);
+	qDebug() << "current recommand:" << endl;
+	for (int i = 0; i < currentRecommand.size(); i++) cout << currentRecommand[i] << " ";
+	cout << endl;
 	recommands.push(currentRecommand);
 	scene->deleteLater();
 	scene = new PageScene(this);
@@ -91,6 +96,7 @@ void Screen::jumpToLastPage() {
 		currentPage = pages.top();
 		currentRecommand = recommands.top();
 		currentID = IDs.top();
+		clickedPagelinks.pop_back();
 		scene->deleteLater();
 		scene = new PageScene(this);
 		connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToPage(QString)));
@@ -105,7 +111,7 @@ void Screen::jumpToLastPage() {
 		currentPage = "";
 		currentRecommand = vector<int>(0);
 		currentID = -1;
-
+		clickedPagelinks.pop_back();
 		//找到上一个被点击过的网页
 		int i =0,len=ret.size();
 		for (; i < len; i++) {
@@ -113,9 +119,12 @@ void Screen::jumpToLastPage() {
 		}
 		if (i != len) {//找到了上一个被点击过的网页
 			clickedLinks.push_back(i);
+			sort(clickedLinks.begin(), clickedLinks.end());
 		}
 		//返回列表页
 		scene->deleteLater();
+		qDebug() << "clicked linkgs:";
+		for (int i = 0; i < clickedLinks.size(); i++) qDebug() << clickedLinks[i] << " ";
 		scene = new ListScene(this);
 		connect(scene, SIGNAL(toPage(QString)), this, SLOT(jumpToPage(QString)));
 		connect(scene, SIGNAL(toInput()), this, SLOT(jumpToInput()));
@@ -128,6 +137,7 @@ void Screen::jumpToInput() {
 	//清空搜索历史
 	ret.clear();
 	clickedLinks.clear();
+	clickedPagelinks.clear();
 	currentPage = "";
 	currentID = -1;
 	IDs.clear();

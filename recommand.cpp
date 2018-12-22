@@ -8,9 +8,78 @@ vector<int> recommand(char* title,double** score,int totalArticles,int totalWord
 }
 
 /*
-	计算每列和第ID列的距离
-	选取最小的前5个输出
+	通过shape=(totalwords,totalarticles)的文章-单词评分矩阵
+	计算shape=(totalarticles,totalarticles)的文章相似度矩阵
+	相似度矩阵sim已经在外部初始化为-2，一个余弦函数不可能取到的值
 */
+void simMatrix(double** sim,double** score, int totalArticles, int totalWords) {
+	for (int i = 0; i < totalArticles; i++) sim[i][i] = 1;//自己和自己最相似
+	for (int i = 0; i < totalArticles; i++) {
+		for (int j = 0; j < totalArticles; j++) {
+			if (j == i) continue;
+			if (sim[j][i] != -2) sim[i][j] = sim[j][i];//(i,j)的相似度和(j,i)的相似度相同
+			else sim[i][j] = cossim(score, i, j, totalWords);
+		}
+	}
+}
+
+
+//从文件读取相似度矩阵
+void readsimMatrix(double** sim, int totalArticles) {
+	//从output文件夹下读取
+	string subdir;
+	getSubDir(subdir, "\output");
+	subdir += "\\sim.txt";
+	ifstream fin(subdir);
+	for (int i = 0; i < totalArticles; i++) {
+		for (int j = 0; j < totalArticles; j++)
+			fin >> sim[i][j];
+	}
+	fin.close();
+}
+
+/*
+	选取和当前ID相似度最大的5个ID
+*/
+vector<int> _recommand(int ID, double** sim, int totalArticles, int totalWords) {
+	vector<int> ret;
+	//余弦相似度最大的5篇文章
+	double max1 = -2, max2 = -2, max3 = -2, max4 = -2, max5 = -2;
+	int idx1 = -1, idx2 = -1, idx3 = -1, idx4 = -1, idx5 = -1;
+	//对当前每篇文章，计算余弦相似度
+	for (int i = 0; i < totalArticles; i++) {
+		if (i == ID) continue;
+		//double tmpcos = cossim(score,ID,i,totalWords);//i和ID的相似度
+		double tmpcos = sim[ID][i];
+		if (tmpcos > max1) {
+			max1 = tmpcos;
+			idx1 = i;
+		}
+		else if (tmpcos > max2) {
+			max2 = tmpcos;
+			idx2 = i;
+		}
+		else if (tmpcos > max3) {
+			max3 = tmpcos;
+			idx3 = i;
+		}
+		else if (tmpcos > max4) {
+			max4 = tmpcos;
+			idx4 = i;
+		}
+		else if (tmpcos > max5) {
+			max5 = tmpcos;
+			idx5 = i;
+		}
+	}
+	if (idx1 != -1) ret.push_back(idx1);
+	if (idx2 != -1) ret.push_back(idx2);
+	if (idx3 != -1) ret.push_back(idx3);
+	if (idx4 != -1) ret.push_back(idx4);
+	if (idx5 != -1) ret.push_back(idx5);
+	return ret;
+}
+/*
 vector<int> _recommand(int ID, double** score,int totalArticles,int totalWords) {
 	vector<int> ret;
 	//freopen("output.txt", "w", stdout);
@@ -49,6 +118,7 @@ vector<int> _recommand(int ID, double** score,int totalArticles,int totalWords) 
 	if (idx5 != -1) ret.push_back(idx5);
 	return ret;
 }
+*/
 
 //余弦相似度
 double cossim(double** score, int col1, int col2,int lines) {//lines是score的行数
